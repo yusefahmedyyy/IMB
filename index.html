@@ -13,6 +13,21 @@
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
+  <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      (function () {
+            var visible = 0, last = Date.now(), fired = {};
+            var marks = [[30, 'engaged_30s'], [120, 'engaged_2min'], [300, 'engaged_5min']];
+            setInterval(function () {
+                    var now = Date.now();
+                    if (document.visibilityState === 'visible') visible += (now - last) / 1000;
+                    last = now;
+                    marks.forEach(function (m) {
+                              if (visible >= m[0] && !fired[m[1]]) { fired[m[1]] = 1; va('event', { name: m[1] }); }
+                    });
+            }, 1000);
+      })();
+  </script>
 <style>
 :root{
   --ink:#1D1D1B;
